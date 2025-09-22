@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # Copyright (c) 2015 Stephen Warren
 # Copyright (c) 2015-2016, NVIDIA CORPORATION. All rights reserved.
@@ -27,7 +27,7 @@ except:
     traceback.print_exc()
     # Hint to the user that they likely simply haven't installed the required
     # dependencies.
-    print >>sys.stderr, '''
+    print('''
 exec(py.test) failed; perhaps you are missing some dependencies?
-See test/py/README.md for the list.'''
+See test/py/README.md for the list.''', file=sys.stderr)
     sys.exit(1)

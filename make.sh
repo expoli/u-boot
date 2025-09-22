@@ -6,14 +6,16 @@
 #
 
 set -e
+set -x
+
 JOB=`sed -n "N;/processor/p" /proc/cpuinfo|wc -l`
 SUPPORT_LIST=`ls configs/*[r,p][x,v,k][0-9][0-9]*_defconfig`
 CMD_ARGS=$1
 
 ########################################### User can modify #############################################
 RKBIN_TOOLS=../rkbin/tools
-CROSS_COMPILE_ARM32=../prebuilts/gcc/linux-x86/arm/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
-CROSS_COMPILE_ARM64=../prebuilts/gcc/linux-x86/aarch64/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+CROSS_COMPILE_ARM32=../../../../../../../../bin/arm-linux-gnueabihf-
+CROSS_COMPILE_ARM64=../../../../../../../../usr/bin/aarch64-linux-gnu-
 ########################################### User not touch #############################################
 # Declare global INI file searching index name for every chip, update in select_chip_info()
 RKCHIP=
@@ -755,8 +757,8 @@ function pack_fit_image()
 		echo "ERROR: No 'dtc', please: apt-get install device-tree-compiler"
 		exit 1
 	elif [ "${ARM64_TRUSTZONE}" == "y" ]; then
-		if ! which python2 >/dev/null 2>&1 ; then
-			echo "ERROR: No python2"
+		if ! which python3 >/dev/null 2>&1 ; then
+			echo "ERROR: No python3"
 			exit 1
 		fi
 	fi
@@ -822,7 +824,7 @@ select_ini_file
 handle_args_late
 sub_commands
 clean_files
-make PYTHON=python2 ${ARG_SPL_FWVER} ${ARG_FWVER} CROSS_COMPILE=${TOOLCHAIN} all --jobs=${JOB}
+make PYTHON=python3 ${ARG_SPL_FWVER} ${ARG_FWVER} CROSS_COMPILE=${TOOLCHAIN} all --jobs=${JOB}
 pack_images
 finish
 echo ${TOOLCHAIN}
